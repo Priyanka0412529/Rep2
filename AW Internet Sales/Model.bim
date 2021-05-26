@@ -1,0 +1,814 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1400,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx",
+        "connectionDetails": {
+          "protocol": "file",
+          "address": {
+            "path": "C:\\Users\\priyanka.khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005.xlsx"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "ServiceAccount",
+          "kind": "File",
+          "path": "c:\\users\\priyanka.khadabadi\\desktop\\intel kt\\adventure works 2005.xlsx"
+        },
+        "contextExpression": [
+          "let",
+          "    #\"0001\" = Excel.Workbook(..., null, true)",
+          "in",
+          "    #\"0001\""
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "Calendar",
+        "columns": [
+          {
+            "name": "ID",
+            "dataType": "int64",
+            "sourceColumn": "ID"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "sourceColumn": "Date"
+          },
+          {
+            "name": "DayNumberOfWeek",
+            "dataType": "int64",
+            "sourceColumn": "DayNumberOfWeek"
+          },
+          {
+            "name": "Day",
+            "dataType": "string",
+            "sourceColumn": "DayName",
+            "sortByColumn": "DayNumberOfWeek"
+          },
+          {
+            "name": "DayNumberOfMonth",
+            "dataType": "int64",
+            "sourceColumn": "DayNumberOfMonth"
+          },
+          {
+            "name": "DayNumberOfYear",
+            "dataType": "int64",
+            "sourceColumn": "DayNumberOfYear"
+          },
+          {
+            "name": "WeekNumberOfYear",
+            "dataType": "int64",
+            "sourceColumn": "WeekNumberOfYear"
+          },
+          {
+            "name": "MONTH",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sortByColumn": "MonthNumberOfYear"
+          },
+          {
+            "name": "MonthNumberOfYear",
+            "dataType": "int64",
+            "sourceColumn": "MonthNumberOfYear"
+          },
+          {
+            "name": "QUARTER",
+            "dataType": "int64",
+            "sourceColumn": "CalendarQuarter"
+          },
+          {
+            "name": "YEAR",
+            "dataType": "int64",
+            "sourceColumn": "CalendarYear"
+          },
+          {
+            "name": "FiscalQuarter",
+            "dataType": "int64",
+            "sourceColumn": "FiscalQuarter"
+          },
+          {
+            "name": "FiscalYear",
+            "dataType": "int64",
+            "sourceColumn": "FiscalYear"
+          },
+          {
+            "name": "FiscalSemester",
+            "dataType": "int64",
+            "sourceColumn": "FiscalSemester"
+          },
+          {
+            "name": "Period",
+            "dataType": "int64",
+            "sourceColumn": "Period"
+          },
+          {
+            "type": "calculated",
+            "name": "Quarter Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "CONCATENATE('Calendar'[YEAR],CONCATENATE(\" Q\",'Calendar'[QUARTER]))"
+          },
+          {
+            "type": "calculated",
+            "name": "YTD",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": " TOTALYTD(SUM(Sales[SalesAmount]),'Calendar'[Date])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\" ThousandSeparator=\"True\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "QTD",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": " TOTALQTD(SUM(Sales[SalesAmount]),'Calendar'[Date])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\" ThousandSeparator=\"True\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "MTD",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": " TOTALMTD(SUM(Sales[SalesAmount]),'Calendar'[Date])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\" ThousandSeparator=\"True\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "Month Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "CONCATENATE('Calendar'[YEAR],CONCATENATE(\" \", 'Calendar'[MONTH]))",
+            "sortByColumn": "MonthNumberOfYear"
+          },
+          {
+            "type": "calculated",
+            "name": "Day Name",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "CONCATENATE('Calendar'[YEAR],CONCATENATE(\" \", 'Calendar'[Day]))",
+            "sortByColumn": "DayNumberOfWeek"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    Calendar_Sheet = Source{[Item=\"Calendar\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Calendar_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ID\", Int64.Type}, {\"Date\", type date}, {\"DayNumberOfWeek\", Int64.Type}, {\"DayName\", type text}, {\"DayNumberOfMonth\", Int64.Type}, {\"DayNumberOfYear\", Int64.Type}, {\"WeekNumberOfYear\", Int64.Type}, {\"MonthName\", type text}, {\"MonthNumberOfYear\", Int64.Type}, {\"CalendarQuarter\", Int64.Type}, {\"CalendarYear\", Int64.Type}, {\"FiscalQuarter\", Int64.Type}, {\"FiscalYear\", Int64.Type}, {\"FiscalSemester\", Int64.Type}, {\"Period\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Simple Calender",
+            "levels": [
+              {
+                "name": "YEAR",
+                "ordinal": 0,
+                "column": "YEAR"
+              },
+              {
+                "name": "Quarter Name",
+                "ordinal": 1,
+                "column": "Quarter Name"
+              },
+              {
+                "name": "Month Name",
+                "ordinal": 2,
+                "column": "Month Name"
+              },
+              {
+                "name": "Day Name",
+                "ordinal": 3,
+                "column": "Day Name"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "dimProductCategory",
+        "columns": [
+          {
+            "name": "ProductCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductCategoryKey"
+          },
+          {
+            "name": "ProductCategoryAlternateKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductCategoryAlternateKey"
+          },
+          {
+            "name": "EnglishProductCategoryName",
+            "dataType": "string",
+            "sourceColumn": "EnglishProductCategoryName"
+          },
+          {
+            "name": "SpanishProductCategoryName",
+            "dataType": "string",
+            "sourceColumn": "SpanishProductCategoryName"
+          },
+          {
+            "name": "FrenchProductCategoryName",
+            "dataType": "string",
+            "sourceColumn": "FrenchProductCategoryName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    dimProductCategory_Sheet = Source{[Item=\"dimProductCategory\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(dimProductCategory_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductCategoryKey\", Int64.Type}, {\"ProductCategoryAlternateKey\", Int64.Type}, {\"EnglishProductCategoryName\", type text}, {\"SpanishProductCategoryName\", type text}, {\"FrenchProductCategoryName\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dimProductSubCategory",
+        "columns": [
+          {
+            "name": "ProductSubcategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductSubcategoryKey"
+          },
+          {
+            "name": "ProductSubcategoryAlternateKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductSubcategoryAlternateKey"
+          },
+          {
+            "name": "EnglishProductSubcategoryName",
+            "dataType": "string",
+            "sourceColumn": "EnglishProductSubcategoryName"
+          },
+          {
+            "name": "SpanishProductSubcategoryName",
+            "dataType": "string",
+            "sourceColumn": "SpanishProductSubcategoryName"
+          },
+          {
+            "name": "FrenchProductSubcategoryName",
+            "dataType": "string",
+            "sourceColumn": "FrenchProductSubcategoryName"
+          },
+          {
+            "name": "ProductCategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductCategoryKey"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    dimProductSubCategory_Sheet = Source{[Item=\"dimProductSubCategory\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(dimProductSubCategory_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductSubcategoryKey\", Int64.Type}, {\"ProductSubcategoryAlternateKey\", Int64.Type}, {\"EnglishProductSubcategoryName\", type text}, {\"SpanishProductSubcategoryName\", type text}, {\"FrenchProductSubcategoryName\", type text}, {\"ProductCategoryKey\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Products",
+        "columns": [
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductKey"
+          },
+          {
+            "name": "ProductSubcategoryKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductSubcategoryKey"
+          },
+          {
+            "name": "ProductName",
+            "dataType": "string",
+            "sourceColumn": "ProductName"
+          },
+          {
+            "name": "StandardCost",
+            "dataType": "double",
+            "sourceColumn": "StandardCost"
+          },
+          {
+            "name": "Color",
+            "dataType": "string",
+            "sourceColumn": "Color"
+          },
+          {
+            "name": "SafetyStockLevel",
+            "dataType": "int64",
+            "sourceColumn": "SafetyStockLevel"
+          },
+          {
+            "name": "ListPrice",
+            "dataType": "double",
+            "sourceColumn": "ListPrice"
+          },
+          {
+            "name": "Size",
+            "dataType": "int64",
+            "sourceColumn": "Size"
+          },
+          {
+            "name": "SizeRange",
+            "dataType": "string",
+            "sourceColumn": "SizeRange"
+          },
+          {
+            "name": "Weight",
+            "dataType": "double",
+            "sourceColumn": "Weight"
+          },
+          {
+            "name": "DaysToManufacture",
+            "dataType": "int64",
+            "sourceColumn": "DaysToManufacture"
+          },
+          {
+            "name": "ProductLine",
+            "dataType": "string",
+            "sourceColumn": "ProductLine"
+          },
+          {
+            "name": "DealerPrice",
+            "dataType": "double",
+            "sourceColumn": "DealerPrice"
+          },
+          {
+            "name": "Class",
+            "dataType": "string",
+            "sourceColumn": "Class"
+          },
+          {
+            "name": "ModelName",
+            "dataType": "string",
+            "sourceColumn": "ModelName"
+          },
+          {
+            "name": "Description",
+            "dataType": "string",
+            "sourceColumn": "Description"
+          },
+          {
+            "name": "StartDate",
+            "dataType": "dateTime",
+            "sourceColumn": "StartDate"
+          },
+          {
+            "name": "EndDate",
+            "dataType": "dateTime",
+            "sourceColumn": "EndDate"
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status"
+          },
+          {
+            "name": "SubCategory",
+            "dataType": "string",
+            "sourceColumn": "SubCategory"
+          },
+          {
+            "name": "Category",
+            "dataType": "string",
+            "sourceColumn": "Category"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    Products_Sheet = Source{[Item=\"Products\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Products_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductKey\", Int64.Type}, {\"ProductSubcategoryKey\", Int64.Type}, {\"ProductName\", type text}, {\"StandardCost\", type number}, {\"Color\", type text}, {\"SafetyStockLevel\", Int64.Type}, {\"ListPrice\", type number}, {\"Size\", Int64.Type}, {\"SizeRange\", type text}, {\"Weight\", type number}, {\"DaysToManufacture\", Int64.Type}, {\"ProductLine\", type text}, {\"DealerPrice\", type number}, {\"Class\", type text}, {\"ModelName\", type text}, {\"Description\", type text}, {\"StartDate\", type date}, {\"EndDate\", type date}, {\"Status\", type text}, {\"SubCategory\", type text}, {\"Category\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Sales",
+        "columns": [
+          {
+            "name": "ProductKey",
+            "dataType": "int64",
+            "sourceColumn": "ProductKey"
+          },
+          {
+            "name": "OrderDate",
+            "dataType": "dateTime",
+            "sourceColumn": "OrderDate"
+          },
+          {
+            "name": "OrderDateKey",
+            "dataType": "int64",
+            "sourceColumn": "OrderDateKey"
+          },
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "SalesTerritoryKey",
+            "dataType": "int64",
+            "sourceColumn": "SalesTerritoryKey"
+          },
+          {
+            "name": "SalesOrderNumber",
+            "dataType": "string",
+            "sourceColumn": "SalesOrderNumber"
+          },
+          {
+            "name": "SalesOrderLineNumber",
+            "dataType": "int64",
+            "sourceColumn": "SalesOrderLineNumber"
+          },
+          {
+            "name": "OrderQuantity",
+            "dataType": "int64",
+            "sourceColumn": "OrderQuantity"
+          },
+          {
+            "name": "UnitPrice",
+            "dataType": "double",
+            "sourceColumn": "UnitPrice"
+          },
+          {
+            "name": "ExtendedAmount",
+            "dataType": "double",
+            "sourceColumn": "ExtendedAmount"
+          },
+          {
+            "name": "UnitPriceDiscountPct",
+            "dataType": "int64",
+            "sourceColumn": "UnitPriceDiscountPct"
+          },
+          {
+            "name": "DiscountAmount",
+            "dataType": "int64",
+            "sourceColumn": "DiscountAmount"
+          },
+          {
+            "name": "ProductStandardCost",
+            "dataType": "double",
+            "sourceColumn": "ProductStandardCost"
+          },
+          {
+            "name": "TotalProductCost",
+            "dataType": "double",
+            "sourceColumn": "TotalProductCost"
+          },
+          {
+            "name": "SalesAmount",
+            "dataType": "double",
+            "sourceColumn": "SalesAmount"
+          },
+          {
+            "name": "TaxAmt",
+            "dataType": "double",
+            "sourceColumn": "TaxAmt"
+          },
+          {
+            "name": "Freight",
+            "dataType": "double",
+            "sourceColumn": "Freight"
+          },
+          {
+            "name": "RegionMonthID",
+            "dataType": "string",
+            "sourceColumn": "RegionMonthID"
+          },
+          {
+            "type": "calculated",
+            "name": "Profit",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": "Sales[SalesAmount]-Sales[TotalProductCost]-Sales[TaxAmt]-Sales[Freight]"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    Sales_Sheet = Source{[Item=\"Sales\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductKey\", Int64.Type}, {\"OrderDate\", type date}, {\"OrderDateKey\", Int64.Type}, {\"CustomerKey\", Int64.Type}, {\"SalesTerritoryKey\", Int64.Type}, {\"SalesOrderNumber\", type text}, {\"SalesOrderLineNumber\", Int64.Type}, {\"OrderQuantity\", Int64.Type}, {\"UnitPrice\", type number}, {\"ExtendedAmount\", type number}, {\"UnitPriceDiscountPct\", Int64.Type}, {\"DiscountAmount\", Int64.Type}, {\"ProductStandardCost\", type number}, {\"TotalProductCost\", type number}, {\"SalesAmount\", type number}, {\"TaxAmt\", type number}, {\"Freight\", type number}, {\"RegionMonthID\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Unit Price",
+            "expression": "SUM('Sales'[UnitPrice])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "TotalSalesAmount",
+            "expression": "SUM('Sales'[SalesAmount])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "TotalProductionCost",
+            "expression": "SUM('Sales'[TotalProductCost])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "TotalProfit",
+            "expression": "SUM('Sales'[Profit])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Territory",
+        "columns": [
+          {
+            "name": "Territory Key",
+            "dataType": "int64",
+            "sourceColumn": "Territory Key"
+          },
+          {
+            "name": "Region",
+            "dataType": "string",
+            "sourceColumn": "Region"
+          },
+          {
+            "name": "Country",
+            "dataType": "string",
+            "sourceColumn": "Country"
+          },
+          {
+            "name": "Group",
+            "dataType": "string",
+            "sourceColumn": "Group"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    Territory_Sheet = Source{[Item=\"Territory\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Territory_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Territory Key\", Int64.Type}, {\"Region\", type text}, {\"Country\", type text}, {\"Group\", type text}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Customers",
+        "columns": [
+          {
+            "name": "CustomerKey",
+            "dataType": "int64",
+            "sourceColumn": "CustomerKey"
+          },
+          {
+            "name": "GeographyKey",
+            "dataType": "int64",
+            "sourceColumn": "GeographyKey"
+          },
+          {
+            "name": "Name",
+            "dataType": "string",
+            "sourceColumn": "Name"
+          },
+          {
+            "name": "BirthDate",
+            "dataType": "dateTime",
+            "sourceColumn": "BirthDate"
+          },
+          {
+            "name": "MaritalStatus",
+            "dataType": "string",
+            "sourceColumn": "MaritalStatus"
+          },
+          {
+            "name": "Gender",
+            "dataType": "string",
+            "sourceColumn": "Gender"
+          },
+          {
+            "name": "YearlyIncome",
+            "dataType": "int64",
+            "sourceColumn": "YearlyIncome"
+          },
+          {
+            "name": "NumberChildrenAtHome",
+            "dataType": "int64",
+            "sourceColumn": "NumberChildrenAtHome"
+          },
+          {
+            "name": "Occupation",
+            "dataType": "string",
+            "sourceColumn": "Occupation"
+          },
+          {
+            "name": "HouseOwnerFlag",
+            "dataType": "int64",
+            "sourceColumn": "HouseOwnerFlag"
+          },
+          {
+            "name": "NumberCarsOwned",
+            "dataType": "int64",
+            "sourceColumn": "NumberCarsOwned"
+          },
+          {
+            "name": "AddressLine1",
+            "dataType": "string",
+            "sourceColumn": "AddressLine1"
+          },
+          {
+            "name": "AddressLine2",
+            "dataType": "string",
+            "sourceColumn": "AddressLine2"
+          },
+          {
+            "name": "Phone",
+            "dataType": "string",
+            "sourceColumn": "Phone"
+          },
+          {
+            "name": "DateFirstPurchase",
+            "dataType": "dateTime",
+            "sourceColumn": "DateFirstPurchase"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"File/C:\\Users\\priyanka khadabadi\\Desktop\\INTEL KT\\Adventure Works 2005 xlsx\",",
+                "    Customers_Sheet = Source{[Item=\"Customers\",Kind=\"Sheet\"]}[Data],",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Customers_Sheet, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"CustomerKey\", Int64.Type}, {\"GeographyKey\", Int64.Type}, {\"Name\", type text}, {\"BirthDate\", type date}, {\"MaritalStatus\", type text}, {\"Gender\", type text}, {\"YearlyIncome\", Int64.Type}, {\"NumberChildrenAtHome\", Int64.Type}, {\"Occupation\", type text}, {\"HouseOwnerFlag\", Int64.Type}, {\"NumberCarsOwned\", Int64.Type}, {\"AddressLine1\", type text}, {\"AddressLine2\", type any}, {\"Phone\", type text}, {\"DateFirstPurchase\", type date}})",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "b1b8f6e7-2944-4373-a62d-d9b6e2af3cc7",
+        "fromTable": "Sales",
+        "fromColumn": "SalesTerritoryKey",
+        "toTable": "Territory",
+        "toColumn": "Territory Key"
+      },
+      {
+        "name": "5772c42f-fca3-4a36-832f-64fde9c30157",
+        "fromTable": "Sales",
+        "fromColumn": "OrderDate",
+        "toTable": "Calendar",
+        "toColumn": "Date"
+      },
+      {
+        "name": "388c7975-9cdd-4e0e-8366-e8c1eca61ef4",
+        "fromTable": "Sales",
+        "fromColumn": "CustomerKey",
+        "toTable": "Customers",
+        "toColumn": "CustomerKey"
+      },
+      {
+        "name": "94677b14-a349-4697-8279-2c59d4a35cba",
+        "fromTable": "Sales",
+        "fromColumn": "ProductKey",
+        "toTable": "Products",
+        "toColumn": "ProductKey"
+      },
+      {
+        "name": "e813f01c-4e8f-4191-84a2-ccea6125a47f",
+        "fromTable": "Products",
+        "fromColumn": "ProductSubcategoryKey",
+        "toTable": "dimProductSubCategory",
+        "toColumn": "ProductSubcategoryKey"
+      },
+      {
+        "name": "1ed36335-7be5-46b4-8245-c43708206cd7",
+        "fromTable": "dimProductSubCategory",
+        "fromColumn": "ProductCategoryKey",
+        "toTable": "dimProductCategory",
+        "toColumn": "ProductCategoryKey"
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "500"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
